@@ -6,7 +6,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var squel = require("squel");
 var moment = require('moment'); 
-var boolParser = require('express-query-boolean');?
+var boolParser = require('express-query-boolean');
 var passwordValidator = require('password-validator');
 
 var schema = new passwordValidator();
@@ -88,7 +88,7 @@ connection.on('connect', function (err) {
                             .toString()
                     );
                     //return the result                  
-                    wDButils.Select(connection, query, function (result) {
+                    DButils.Select(connection, query, function (result) {
                         if (result.length == 0) {
                             res.send(JSON.stringify({ "Failed": " Wrong Password" }));
                         }
@@ -144,85 +144,87 @@ connection.on('connect', function (err) {
             var length = req.body.Categories.length;
 
             //validate the username length
-            if (!(args)) {                
+            if (!(args)) {
                 res.send(JSON.stringify({ "Failed": "The length of the user Name should be between 3-8 chars" }));
             }
             //validate the password
-            else if (!(argsPass)) {               
+            else if (!(argsPass)) {
                 res.send(JSON.stringify({ "Failed": "The length of the Password should be between 5-10 chars" }));
             }
             //validate aplhanumneric value
-            else if (!(isLetters)) {               
+            else if (!(isLetters)) {
                 res.send(JSON.stringify({
                     "Failed": "The User Name should Contains only letters"
                 }));
             }
-            else if (!(isLettersOrNum) || !(passValied)) {               
+            else if (!(isLettersOrNum) || !(passValied)) {
                 res.send(JSON.stringify({ "Failed": " The password should contain only a combination of letters and numbers" }));
             }
-            else if (!(EmailVal)) {               
+            else if (!(EmailVal)) {
                 res.send(JSON.stringify({ "Failed": "The Email not Valid" }));
 
             }
 
-            //check if the username is already taken
-            var query = (
-                squel.select()
-                    .from("Users")
-                    .where("username = ?", _username)
-                    .toString()
-            );
-            DButils.Select(connection, query, function (result) {
-                if (result.length > 0) {                 
-                    res.send(JSON.stringify({ "Failed": "Username already exists" }));
-                }
-                else {
+            else {
+                //check if the username is already taken
+                var query = (
+                    squel.select()
+                        .from("Users")
+                        .where("username = ?", _username)
+                        .toString()
+                );
+                DButils.Select(connection, query, function (result) {
+                    if (result.length > 0) {
+                        res.send(JSON.stringify({ "Failed": "Username already exists" }));
+                    }
+                    else {
 
 
-                    var query2 = (
-                        squel.insert()
-                            .into("Users")
-                            .set("username", _username)
-                            .set("password", _password)
-                            .set("FirstName", _FirstName)
-                            .set("LastName", _LastName)
-                            .set("Email", _Email)
-                            .set("Address", _Address)
-                            .set("Country", _Country)
-                            .set("Q1", _Q1)
-                            .set("Ans1", _Ans1)
-                            .set("Q2", _Q2)
-                            .set("Ans2", _Ans2)
-                            .set("Telephone", _Telephone)
-                            .set("CreditCardNumber", _CardNo)
-                            .set("IsAdmin", 0) //set is admin to false
-                            .toString()
-                    );
-                    DButils.Insert(connection2, query2, function (result) {                      
-                        if (result) {                            
-                            res.send(JSON.stringify({ "success": "New user created" }));
-
-                        }
-
-
-                    });
-
-                    //set the user's categories
-                    for (var i = 0; i < length; i++) {
-                        var x = req.body.Categories[i];                        
-                        var query3 = (
+                        var query2 = (
                             squel.insert()
-                                .into("UsersCategories")
+                                .into("Users")
                                 .set("username", _username)
-                                .set("Category", x)
+                                .set("password", _password)
+                                .set("FirstName", _FirstName)
+                                .set("LastName", _LastName)
+                                .set("Email", _Email)
+                                .set("Address", _Address)
+                                .set("Country", _Country)
+                                .set("Q1", _Q1)
+                                .set("Ans1", _Ans1)
+                                .set("Q2", _Q2)
+                                .set("Ans2", _Ans2)
+                                .set("Telephone", _Telephone)
+                                .set("CreditCardNumber", _CardNo)
+                                .set("IsAdmin", 0) //set is admin to false
                                 .toString()
                         );
-                        DButils.Insert(connectionsList[i], query3, function (result) {
-                        });
-                    }
-                }
+                        DButils.Insert(connection2, query2, function (result) {
+                            if (result) {
+                                res.send(JSON.stringify({ "success": "New user created" }));
 
-            });
+                            }
+
+
+                        });
+
+                        //set the user's categories
+                        for (var i = 0; i < length; i++) {
+                            var x = req.body.Categories[i];
+                            var query3 = (
+                                squel.insert()
+                                    .into("UsersCategories")
+                                    .set("username", _username)
+                                    .set("Category", x)
+                                    .toString()
+                            );
+                            DButils.Insert(connectionsList[i], query3, function (result) {
+                            });
+                        }
+                    }
+
+                });
+            }
         });
 
         //sent the user his authentication questions
@@ -594,7 +596,7 @@ connection.on('connect', function (err) {
                                     if (!sent) {
                                         if (obj === "Success") {
                                             sent = true;
-                                            res.send(JSON.stringify({ "Sucess": nextOrderID}));
+                                            res.send(JSON.stringify({ "Success": nextOrderID}));
                                         }
                                         else {
                                             sent = true;
@@ -651,7 +653,7 @@ connection.on('connect', function (err) {
                             if (!sent) {
                                 if (obj === "Success") {
                                     sent = true;
-                                    res.send(JSON.stringify({ "Sucess": "isAdmin" }));
+                                    res.send(JSON.stringify({ "Success": "isAdmin" }));
                                 }
                                 else {
                                     sent = true;
@@ -716,7 +718,7 @@ connection.on('connect', function (err) {
                             if (!sent) {
                                 if (obj === "Success") {
                                     sent = true;
-                                    res.send(JSON.stringify({ "Sucess": "Car Added" }));
+                                    res.send(JSON.stringify({ "Success": "Car Added" }));
                                 }
                                 else {
                                     sent = true;
@@ -838,7 +840,7 @@ connection.on('connect', function (err) {
                             if (!sent) {
                                 if (obj === "Success") {
                                     sent = true;
-                                    res.send(JSON.stringify({ "Sucess":"Stock was Updated" }));
+                                    res.send(JSON.stringify({ "Success":"Stock was Updated" }));
                                 }
                                 else {
                                     sent = true;
@@ -859,72 +861,6 @@ connection.on('connect', function (err) {
                 res.send(result);
             });
         });
-
-
-        //Add new category to the system
-    /*    app.post('/addCategory', function (req, res) {
-            var cat = req.body.Category;
-            DButils.Insert(connection, "INSERT INTO Categories (Category) VALUES(@category)", cat, function (result) {
-                var sent = false;
-                for (var obj in result) {
-                    if (!sent) {
-                        if (obj === "Success") {
-                            sent = true;
-                            res.send(JSON.stringify({ "Sucess": "" + cat + " Added" }));
-                        }
-                        else {
-                            sent = true;
-                            res.send(result);
-
-                        }
-                    }
-                }
-               
-            });
-        });*/
-
-
-
-   
-
-
-
-     
-
- 
-
-        
-
-
-        
-
-       
-
-      
-
-
-   
-
-
-        
-
-
-
-
-
-        
-
-
-
-
-
-       
-
-
- 
-
-
-
             }
 });
 
