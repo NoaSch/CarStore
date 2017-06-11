@@ -1,7 +1,6 @@
-﻿var Connection = require('tedious').Connection;
+var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 var TYPES = require('tedious').TYPES;
-var sync = require('synchronize')
 
 //Handle SELECT Commands
 exports.Select = function (connection, query, callback) {            
