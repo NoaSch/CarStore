@@ -76,7 +76,7 @@ connection.on('connect', function (err) {
             );
             //check if the user exist
             DButils.Select(connection2, ckeckQuery, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "Failed": " the username  is Not exist" }));
                 }
                 else {
@@ -89,7 +89,7 @@ connection.on('connect', function (err) {
                     );
                     //return the result                  
                     DButils.Select(connection, query, function (result) {
-                        if (result.length == 0) {
+                        if (result.length === 0) {
                             res.send(JSON.stringify({ "Failed": " Wrong Password" }));
                         }
                         else {
@@ -260,7 +260,7 @@ connection.on('connect', function (err) {
                     .toString()
             );
             DButils.Select(connection, query, function (result) {              
-                if (((result[0].Ans1) == _ans1) && ((result[0].Ans2) == _ans2)) {                    
+                if (((result[0].Ans1) === _ans1) && ((result[0].Ans2) === _ans2)) {                    
                     res.send(JSON.stringify({ "password": result[0].password }));                  
                 }
                 else {                  
@@ -310,7 +310,7 @@ connection.on('connect', function (err) {
             );
             //check if the car exist in the system
             DButils.Select(connection2, ckeckQuery, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "Failed": " this ID  is Not exist" }));
                 }
 
@@ -359,7 +359,7 @@ connection.on('connect', function (err) {
                     .toString()
             );
             DButils.Select(connection, query, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "False": " Not found any order" }));
                 }
                 else {
@@ -380,7 +380,7 @@ connection.on('connect', function (err) {
                     .toString()
             );
             DButils.Select(connection, query, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "False": " OrderId not exist" }));
                 }
                 else {
@@ -401,7 +401,7 @@ connection.on('connect', function (err) {
                     .toString()
             );
             DButils.Select(connection, query, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "False": " OrderId not exist" }));
                 }
                 else {
@@ -424,7 +424,7 @@ connection.on('connect', function (err) {
                     .toString()
             );
             DButils.Select(connection2, ckeckQuery, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "False": " NotInStock" }));
                 }
 
@@ -460,7 +460,7 @@ connection.on('connect', function (err) {
                     .toString()
             );
             DButils.Select(connection2, ckeckQueryUserName, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "Failed": "user not exist" }));
                 }
                 //find next available orderid
@@ -550,7 +550,7 @@ connection.on('connect', function (err) {
                     .toString()
             );
             DButils.Select(connection2, ckeckQueryUserName, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "Failed": " The user " + username + " not exist" }));
                 }
                 //find free order number
@@ -634,7 +634,7 @@ connection.on('connect', function (err) {
             );
             //check if the user exist
             DButils.Select(connection2, ckeckQuery, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "Failed": "username Not exist" }));
                 }
                 else {
@@ -744,7 +744,7 @@ connection.on('connect', function (err) {
                     .toString()
             );
             DButils.Select(connection2, ckeckQuery, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "Failed": " this ID  is Not exist" }));
                 }
                 else {
@@ -777,7 +777,7 @@ connection.on('connect', function (err) {
                     .toString()
             );
             DButils.Select(connection2, ckeckQuery, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "Failed": " the username  is Not exist" }));
                 }
                 else {
@@ -820,7 +820,7 @@ connection.on('connect', function (err) {
             );
             //Check if the car is exist
             DButils.Select(connection2, ckeckQuery, function (result) {
-                if (result.length == 0) {
+                if (result.length === 0) {
                     res.send(JSON.stringify({ "Failed": "ID  is Not exist" }));
                 }
 
@@ -861,6 +861,8 @@ connection.on('connect', function (err) {
                 res.send(result);
             });
         });
+
+
             }
 });
 
